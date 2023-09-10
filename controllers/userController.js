@@ -6,6 +6,7 @@ import transport from "../config/emailConfig.js";
 //The req. body object allows you to access data in a string or JSON object from the client side. You generally use the req. body object to receive data through POST and PUT requests in the Express server.
 
 class UserController {
+  // user SigUp
   static userRegistration = async (req, res) => {
     const { name, email, password, password_confirmation, tc } = req.body;
     const user = await UserModel.findOne({ email: email }); //first email is already existed and second email entered by new user for registration
@@ -45,6 +46,7 @@ class UserController {
       }
     }
   };
+  // user Login
   static userLogin = async (req, res) => {
     try {
       const { email, password } = req.body;
@@ -77,7 +79,7 @@ class UserController {
       res.send({ status: "failed", message: "Unable to Login" });
     }
   };
-
+ // change Password
   static changeUserPassword = async(req,res)=>{
     const { password, password_confirmation } = req.body
     if(password && password_confirmation){
@@ -98,7 +100,7 @@ class UserController {
   static loggedUser = async (req,res)=>{
     res.send({ "user": req.user })
   }
-
+// send reset Email
   static sendUserPasswordResetEmail = async (req,res)=>{
     const { email } = req.body
     if(email){
@@ -125,7 +127,7 @@ class UserController {
       res.send({ status: "failed", message: " Email field is required " });
     }
   }
-
+  // reset Password
     static userPasswordReset = async (req,res)=>{
       const { password, password_confirmation } = req.body
       const { id, token } = req.params
